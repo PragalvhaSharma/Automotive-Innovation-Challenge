@@ -36,11 +36,11 @@ class ThermalDataset(Dataset):
                     image_name = parts[0]
                     try:
                         class_id = int(parts[1])
-                        # Read as (x1,y1)-(x2,y2) coordinates
-                        x1 = float(parts[2])
-                        y1 = float(parts[3])
-                        x2 = float(parts[4])
-                        y2 = float(parts[5])
+                        # Read coordinates in x_min, y_min, x_max, y_max order
+                        x_min = float(parts[2])
+                        y_min = float(parts[3])
+                        x_max = float(parts[4])
+                        y_max = float(parts[5])
                         
                         # Validate class
                         if class_id not in self.class_names:
@@ -48,22 +48,25 @@ class ThermalDataset(Dataset):
                             continue
                         
                         # Fix swapped coordinates if needed
-                        if x1 > x2:
-                            x1, x2 = x2, x1
-                        if y1 > y2:
-                            y1, y2 = y2, y1
+                        if x_min > x_max:
+                            x_min, x_max = x_max, x_min
+                            fixed_entries.append((line_num, f"Fixed swapped x coordinates"))
+                        if y_min > y_max:
+                            y_min, y_max = y_max, y_min
+                            fixed_entries.append((line_num, f"Fixed swapped y coordinates"))
                         
                         # Ensure coordinates are valid
-                        if x1 < 0 or y1 < 0:
-                            x1 = max(0, x1)
-                            y1 = max(0, y1)
+                        if x_min < 0 or y_min < 0:
+                            x_min = max(0, x_min)
+                            y_min = max(0, y_min)
+                            fixed_entries.append((line_num, f"Fixed negative coordinates to 0"))
                         
                         # Group by image
                         if image_name not in self.image_labels:
                             self.image_labels[image_name] = []
                             
                         self.image_labels[image_name].append({
-                            'box': [x1, y1, x2, y2],  # Store as [x1, y1, x2, y2]
+                            'box': [x_min, y_min, x_max, y_max],  # Store as [x_min, y_min, x_max, y_max]
                             'class': class_id
                         })
                         
@@ -157,7 +160,7 @@ def collate_fn(batch):
             image = item['image'].permute(2, 0, 1)  # CHW format
             
         images.append(image)
-        boxes.append(item['boxes'])  # [x1, y1, x2, y2] format
+        boxes.append(item['boxes'])  # [x_min, x_max, y_min, y_max] format
         classes.append(item['classes'])
         image_names.append(item['image_name'])
     
@@ -193,8 +196,7 @@ if __name__ == "__main__":
             for idx, label in enumerate(image_labels, 1):
                 print(f"Object {idx}:")
                 print(f"  Class: {label['class']} ({dataset.class_names[label['class']]})")
-                box = label['box']
-                print(f"  Box: ({box[0]:.1f},{box[1]:.1f}) - ({box[2]:.1f},{box[3]:.1f})")
+                print(f"  Box [x_min, x_max, y_min, y_max]: {label['box']}")
             
             # Load image
             img_path = os.path.join(img_dir, random_image)
@@ -217,14 +219,14 @@ if __name__ == "__main__":
             
             # Draw boxes on original image
             for label in image_labels:
-                x1, y1, x2, y2 = label['box']
+                x_min, y_min, x_max, y_max = label['box']
                 class_id = label['class']
                 
                 # Create rectangle patch
                 rect = patches.Rectangle(
-                    (x1, y1), 
-                    x2 - x1,  # width
-                    y2 - y1,  # height
+                    (x_min, y_min), 
+                    x_max - x_min,
+                    y_max - y_min, 
                     linewidth=1, 
                     edgecolor=dataset.class_colors[class_id], 
                     facecolor='none'
@@ -232,9 +234,9 @@ if __name__ == "__main__":
                 plt.gca().add_patch(rect)
                 
                 # Add label with coordinates
-                label_text = f"{dataset.class_names[class_id]} ({x1:.1f},{y1:.1f}) - ({x2:.1f},{y2:.1f})"
+                label_text = f"{dataset.class_names[class_id]} ({x_min:.1f},{y_min:.1f})-({x_max:.1f},{y_max:.1f})"
                 plt.text(
-                    x1, y1 - 5,
+                    x_min, y_min - 5,
                     label_text,
                     color=dataset.class_colors[class_id],
                     fontsize=8,

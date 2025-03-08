@@ -36,7 +36,7 @@ Thermal_Dataset/
 Each label file (`train_labels.txt` and `val_labels.txt`) contains annotations in the following format:
 
 ```
-image_file class_id x_min x_max y_min y_max
+image_file class_id x_min x_max y_min y_max (corrected version :    x min, y min, x max, y max)
 ```
 
 ### Explanation of Label Fields:
