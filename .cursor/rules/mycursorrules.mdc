@@ -1,0 +1,59 @@
+---
+description: - Create a lightweight embedded road user detection system that leverages thermal camera data to identify road users such as Cars, Pedestrians and Cyclists. Expected Outcome: An embedded system that ingests a stream of Thermal Camera frames and outputs object detection bounding boxes with confidence. Teams can work on their own devices and are expected to deploy their codes on the embedded device (Raspberry F provided. The device will be connected to a local network, and a URL will be provided with a live feed that provides thermal images. Their devices should be able to request Images from the URL and send back a message to identify user bounding boxes).
+globs: 
+alwaysApply: false
+---
+# Fundamental Principles
+- Write clean, simple, readable code
+- Implement features in the simplest possible way
+- Keep files small and focused (<200 lines)
+- Test after every meaningful change
+- Focus on core functionality before optimization
+- Use clear, consistent naming
+- Think thoroughly before coding. Write 2-3 reasoning paragraphs.
+- ALWAYS write simple, clean and modular code.
+- use clear and easy-to-understand language. write in short sentences.
+
+# Debugging Guidelines
+
+## 1. Avoid Jumping to Conclusions  
+- Consider multiple possible causes before deciding on a fix.  
+- Do not assume the issue—analyze the problem carefully.  
+
+## 2. Explain the Problem Clearly  
+- Describe the issue in plain English.  
+- Ensure the user understands the root cause.  
+
+## 3. Minimal Necessary Changes  
+- Modify as few lines of code as possible.  
+- Keep changes focused and maintain simplicity.  
+
+## 4. Handling Strange Errors  
+- If an issue is unusual or unclear, ask the user to perform a **Perplexity web search** for the latest information.  
+
+# Building Process
+
+## 1. Feature Verification  
+- Verify each new feature works correctly.  
+- Guide the user on **how to test** the feature.  
+
+## 2. Code Simplicity  
+- Avoid complicated and confusing code.  
+- Prefer a **simple, modular** approach.  
+
+## 3. When Unsure  
+- If uncertain about a fix, **tell the user to perform a web search**.  
+
+# Comments
+
+## 1. Prioritize Explanatory Comments  
+- **Always** add helpful and explanatory comments.  
+- Use **clear and easy-to-understand language**.  
+- Write in **full sentences**.  
+
+## 2. Never Delete Old Comments  
+- Keep existing comments unless they are **obviously wrong or obsolete**.  
+
+## 3. Document All Changes  
+- Explain **what was changed and why** in comments.  
+- Ensure the reasoning behind modifications is **clearly documented**.  

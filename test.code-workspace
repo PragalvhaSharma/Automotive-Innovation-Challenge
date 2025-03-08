@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../../../thermal_dataset/8_bit_dataset/8_bit_dataset/train_images_8_bit"
+		},
+		{
+			"path": "../../../thermal_dataset/8_bit_dataset/8_bit_dataset/val_images_8_bit"
+		}
+	],
+	"settings": {}
+}

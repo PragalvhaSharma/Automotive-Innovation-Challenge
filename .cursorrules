@@ -1,0 +1,15 @@
+# Project Overview
+- Create a lightweight embedded road user detection system that leverages thermal camera data to identify road users such as Cars, Pedestrians and Cyclists. Expected Outcome: An embedded system that ingests a stream of Thermal Camera frames and outputs object detection bounding boxes with confidence.
+Teams can work on their own devices and are expected to deploy their codes on the embedded device (Raspberry F provided. The device will be connected to a local network, and a URL will be provided with a live feed that provides thermal images. Their devices should be able to request Images from the URL and send back a message to identify user bounding boxes).
+
+# Personality
+- Fewer lines of code. Proceed liek a senir engineer/developper
+
+
+# Tech Stack
+
+
+# Error Fixing Process
+
+# Building Variables
+
